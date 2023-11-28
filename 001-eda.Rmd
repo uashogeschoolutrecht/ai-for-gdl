@@ -1,0 +1,46 @@
+## Prompt 6
+
+Now, using the attached (Kaggle Diabetes) dataset, write R code to 
+
+ 1. Explore the data
+ 2. Generate some summary statistics, relevant for machine learning
+ 3. Assuming the variable 'Outcome' as the prediction class, write R code, using tidymodels to run a logisctic regression model
+ 4. Using the same outcome, write tidymodels R code for a Random Forest and an XGBoost classification
+ 5. Run an unsupervised clustering using PCS in tidymodels R syntax.
+ GPT
+
+ANSWER
+The provided zip file contains a single file named diabetes.csv. This file will be used for the R code tasks you requested, which 
+include data exploration, generating summary statistics, 
+logistic regression, random forest and XGBoost classification models, as well as unsupervised 
+clustering using PCA. Let's write the R code for each of these tasks:
+
+1. Explore the Data
+
+```{r}
+library(readr)
+library(dplyr)
+
+# Load the dataset
+## Note that we replace the local file with the download link to the zip-file for reproducibility reasons
+download.file()
+# unzip
+data <- read_csv('path/to/diabetes.csv')
+
+# View the first few rows of the dataset
+head(data)
+
+# View the structure of the dataset
+str(data)
+```
+
+## 2. Generate Summary Statistics
+
+```{r}
+# Summary statistics
+summary(data)
+
+# Count of outcomes
+table(data$Outcome)
+```
+
