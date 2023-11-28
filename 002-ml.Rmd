@@ -1,0 +1,90 @@
+## 3. Logistic Regression Model Using tidymodels
+
+```{r}
+library(tidymodels)
+
+# Split the data into training and testing sets
+set.seed(123)
+data_split <- initial_split(data, prop = 0.8)
+train_data <- training(data_split)
+test_data <- testing(data_split)
+
+# Define the model using logistic regression
+logistic_reg_spec <- logistic_reg() %>% 
+  set_engine("glm")
+
+# Define the workflow
+logistic_workflow <- workflow() %>% 
+  add_model(logistic_reg_spec) %>% 
+  add_formula(Outcome ~ .)
+
+# Fit the model
+logistic_fit <- logistic_workflow %>% 
+  fit(data = train_data)
+
+# Evaluate the model
+logistic_results <- logistic_fit %>% 
+  predict(test_data) %>% 
+  bind_cols(test_data) %>% 
+  metrics(truth = Outcome, estimate = .pred_class)
+```
+
+## 4. Random Forest and XGBoost Classification
+
+### Random Forest
+
+```{r}
+# Random Forest model
+random_forest_spec <- rand_forest() %>% 
+  set_engine("ranger") %>% 
+  set_mode("classification")
+
+# Workflow
+random_forest_workflow <- workflow() %>% 
+  add_model(random_forest_spec) %>% 
+  add_formula(Outcome ~ .)
+
+# Fit the model
+random_forest_fit <- random_forest_workflow %>% 
+  fit(data = train_data)
+```
+
+### XGBoost
+
+```{r}
+# XGBoost model
+xgboost_spec <- boost_tree() %>% 
+  set_engine("xgboost") %>% 
+  set_mode("classification")
+
+# Workflow
+xgboost_workflow <- workflow() %>% 
+  add_model(xgboost_spec) %>% 
+  add_formula(Outcome ~ .)
+
+# Fit the model
+xgboost_fit <- xgboost_workflow %>% 
+  fit(data = train_data)
+```
+
+## 5. Unsupervised Clustering Using PCA
+
+```{r}
+# Unsupervised clustering using PCA
+pca_spec <- recipe(~., data = train_data) %>% 
+  step_normalize(all_predictors()) %>% 
+  step_pca(all_predictors(), num_comp = 2)
+
+# Preparing the PCA recipe
+pca_prep <- prep(pca_spec, training = train_data)
+
+# Applying the PCA
+pca_data <- bake(pca_prep, new_data = train_data)
+
+# Exploring the PCA results
+head(pca_data)
+
+Note: Replace path/to/diabetes.csv with the actual path to your dataset file. Also, the exact parameters for the 
+models (like the number of trees in the random forest, or the number of components in PCA) may need to be tuned based on 
+the specific characteristics of 
+your dataset. ​
