@@ -1,46 +1,80 @@
-## Prompt 6
+# Exploratory Data Analysis
 
-Now, using the attached (Kaggle Diabetes) dataset, write R code to 
+## The importance of Exploratory Data Analysis
+I consider exploratory data analysis or `EDA` in short, to be one of the most crucial phases in any analysis. Before diving into any type of modelling it is of utmost importance to have an idea about the data. To get a full understanding of the data that you have, you should spend a large proportion of you efforts to deeply explore it. A thourough exploration will prevent problems with the data in a later stage. Do not dive immediately into the formal inferention of modelling of your data. The exploratory data analysis process is not a formal process that stricly abides by rules on what to do. It is an iterative process where you explore and dive into specifics of the data. In general though, there are a number of aspects you can consider during this phase of the modelling:
 
- 1. Explore the data
- 2. Generate some summary statistics, relevant for machine learning
- 3. Assuming the variable 'Outcome' as the prediction class, write R code, using tidymodels to run a logisctic regression model
- 4. Using the same outcome, write tidymodels R code for a Random Forest and an XGBoost classification
- 5. Run an unsupervised clustering using PCS in tidymodels R syntax.
- GPT
+ - Look at the first and last few rows of the data
+ - Investigate which variables are in the data
+ - In what format is the data represented: machine readible, tidy (stacked) or wide? 
+ - Are there any missing values
+ - Is missing random or is there a pattern?
+ - Some plots on missing data (`{naniar}` R package)
+ - Some exploratory plots on some variables (e.g. correlations, bar graphs, box plots), using `{ggplot}`
+ - Some summary statistics
+ - Are there categorical variables, is the data balanced towards the oucome variable (e.g. an unbalanced dataset would have more samples for a specific category of the outcome variable, or would have more samples of a specific group of sample - more males then females for example)
+ - Are there any variables that hold information about another (unobserved) variable - feature engineering
+ - Are there any possibilities to enrich the data from additional data sources?
+ - Are there privacy issues in the data that need to be addressed: hashing, removal, anonymization
+
+A good resource for R on EDA is [this free e-book](https://leanpub.com/exdata) 
+See [this article about the `tidy data` principle](https://www.jstatsoft.org/article/view/v059i10)
+
+## Prompt 1
+
+Now, using the attached (Kaggle Diabetes) dataset, write R code to address the EDA issue (pasted the list from above) 
 
 ANSWER
-The provided zip file contains a single file named diabetes.csv. This file will be used for the R code tasks you requested, which 
-include data exploration, generating summary statistics, 
-logistic regression, random forest and XGBoost classification models, as well as unsupervised 
-clustering using PCA. Let's write the R code for each of these tasks:
+I adapted and supplemented the answer to suit a more modern R syntax. bout 50% of the original code remainded after the rewrite.  
 
-1. Explore the Data
-
-```{r}
+# Load necessary libraries
 library(readr)
 library(dplyr)
+library(ggplot2)
+library(naniar)
 
-# Load the dataset
-## Note that we replace the local file with the download link to the zip-file for reproducibility reasons
-download.file()
-# unzip
-data <- read_csv('path/to/diabetes.csv')
+# Read the dataset
+data <- read_csv("path/to/diabetes.csv")
 
-# View the first few rows of the dataset
+# 1. Look at the first and last few rows of the data
 head(data)
+tail(data)
 
-# View the structure of the dataset
+# 2. Investigate which variables are in the data
+colnames(data)
+
+# 3. In what format is the data represented
 str(data)
-```
 
-## 2. Generate Summary Statistics
+# 4. Check for missing values
+sum(is.na(data))
 
-```{r}
-# Summary statistics
+# 5. Explore if missing is random or has a pattern
+# Using naniar package
+gg_miss_var(data)
+gg_miss_upset(data)
+
+# 6. Exploratory plots
+# Correlation plot
+library(GGally)
+ggpairs(data)
+
+# Box plots for each variable
+melted_data <- reshape2::melt(data)
+ggplot(melted_data, aes(x = variable, y = value)) + 
+  geom_boxplot() +
+  facet_wrap(~variable, scales = 'free')
+
+# 7. Summary statistics
 summary(data)
 
-# Count of outcomes
+# 8. Check if categorical variables are balanced
 table(data$Outcome)
-```
 
+# 9. Feature engineering possibilities
+# This requires domain knowledge to identify possible new features
+
+# 10. Enriching data from additional data sources
+# This is context-specific and requires identifying relevant external datasets
+
+# 11. Addressing privacy issues
+# Check for any personal identifiers (like names, IDs) in the data
