@@ -1,0 +1,89 @@
+# R Code for Neural Network using TensorFlow
+
+First, ensure you have the necessary packages installed. You can install them using the following commands if you haven't already:
+
+```{r}
+#install.packages("tensorflow")
+#install.packages("keras")
+library(tensorflow)
+library(keras)
+```
+
+## Load the dataset
+
+```{r}
+data <- read.csv("path/to/diabetes.csv")
+```
+
+## Normalize the data (excluding the Outcome variable)
+
+```{r}
+normalized_data <- as.data.frame(scale(data[, colnames(data) != "Outcome"]))
+normalized_data$Outcome <- data$Outcome
+```
+
+## Splitting the data into training and testing sets
+
+```{r}
+set.seed(123)
+indices <- sample(1:nrow(normalized_data), size = 0.8 * nrow(normalized_data))
+train_data <- normalized_data[indices, ]
+test_data <- normalized_data[-indices, ]
+```
+
+## Separating predictors and response
+
+```{r}
+train_x <- as.matrix(train_data[, colnames(train_data) != "Outcome"])
+train_y <- as.matrix(train_data[, "Outcome"])
+
+test_x <- as.matrix(test_data[, colnames(test_data) != "Outcome"])
+test_y <- as.matrix(test_data[, "Outcome"])
+```
+
+## Defining the neural network model
+
+```{r}
+model <- keras_model_sequential() %>%
+  layer_dense(units = 12, activation = 'relu', input_shape = c(ncol(train_x))) %>%
+  layer_dense(units = 8, activation = 'relu') %>%
+  layer_dense(units = 1, activation = 'sigmoid')
+```
+
+## Compiling the model
+
+```{r}
+model %>% compile(
+  loss = 'binary_crossentropy',
+  optimizer = optimizer_rmsprop(),
+  metrics = c('accuracy')
+)
+```
+
+## Fitting the model
+
+```{r}
+history <- model %>% fit(
+  train_x, train_y,
+  epochs = 200,
+  batch_size = 10,
+  validation_split = 0.2
+)
+```
+
+## Evaluate the model
+
+```{r}
+model %>% evaluate(test_x, test_y)
+```
+
+Notes:
+
+    Data Preprocessing: The data is normalized to ensure that all variables contribute equally to the model training.
+    Model Architecture: The neural network consists of two hidden layers. You may adjust the number of layers and units per layer based on the complexity of your dataset.
+    Compilation: The model uses binary crossentropy as the loss function, which is suitable for binary classification tasks.
+    Training: Adjust the epochs and batch_size as needed based on your dataset's size and characteristics.
+    Evaluation: The model's performance is evaluated on the test set.
+
+You should tune the model parameters (like the number of neurons in each layer, the number of epochs, etc.) based on the specific needs and characteristics 
+of your dataset.
