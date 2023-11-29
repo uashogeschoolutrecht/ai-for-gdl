@@ -1,3 +1,5 @@
+# Prompts used to ask ChatGPT (GPT-4, paid subscription)
+
 ## Create ChatGPT 'Avatar'
 'Associate professor Data Science in Life Sciences & Chemistry'
 
@@ -243,12 +245,56 @@ Let's go for this suggestion!
 I googled: "Diabetes Patient Records Dataset" and this landed me at Kaggle:
 https://www.kaggle.com/datasets/mathchi/diabetes-data-set
 
+Another dataset that we will use for deep learning is the 'Diabetes' dataset at [UCI:](http://archive.ics.uci.edu/dataset/34/diabetes)
 Original source and citation: Kahn, Michael. Diabetes. UCI Machine Learning Repository. https://doi.org/10.24432/C5T59G.
 
-Downloading the dataset can be done without registering an account at Kaggle.
+Downloading the dataset can be done without registering an account at Kaggle or UCI.
 
-To illustrate a number of possibilities for the use of AI in the prediction of Diabetes, I have prepared some materials to be run 
-in the Statiscal & Data Science Programming environment R. See files:
+## Alternative dataset on sustainability
+In oder to accomodate a different audianece and research theme, I promted GPT-4 for an alternative more geared toward engineering.
+
+### Prompt 7:
+
+What dataset recommendation do you have for the research field of 'egineering' that is also part of the knowledge center? Preferably something that would demonstrate forcasting using machine learning.
+GPT
+
+For the research field of engineering within the Knowledge Center, particularly with a focus on demonstrating forecasting using machine learning, a suitable dataset could be related to energy consumption or production. One specific example is a dataset on electricity demand forecasting. Such datasets are commonly used in engineering research for optimizing energy systems, integrating renewable energy sources, and planning infrastructure investments.
+Example Dataset: Electricity Demand Forecasting Dataset
+Overview:
+
+    This dataset typically includes historical electricity consumption data along with various influencing factors such as time (hour, day, month, year), weather conditions (temperature, humidity, wind speed), and special events (holidays, industrial activity).
+    It's used to forecast future electricity demand, which is a critical aspect of energy management in engineering.
+
+Attributes:
+
+    Electricity Consumption: The amount of electricity consumed in a specific time period (e.g., hourly, daily).
+    Time Variables: Hour of the day, day of the week, month, year.
+    Weather Conditions: Temperature, humidity, wind speed, possibly solar irradiance for regions with significant solar power.
+    Special Events: Public holidays, industrial activities, and other events that might affect electricity usage.
+    Other Possible Variables: Economic indicators, population movement data, etc.
+
+Potential Analysis with Machine Learning:
+
+    Time Series Forecasting Models: Using historical data to predict future electricity demand.
+    Feature Importance Analysis: Identifying key factors that most significantly affect electricity consumption.
+    Integrating Renewable Energy Data: For regions with significant renewable energy (like solar or wind), analyzing how this integration impacts overall electricity demand.
+
+Ethical Considerations:
+
+    The dataset should be used in a way that respects privacy and proprietary information, especially if it includes data from specific households or businesses.
+
+Where to Find Similar Datasets:
+
+    Publicly available datasets from government or energy departments.
+    Datasets from energy competitions on platforms like Kaggle.
+    Synthetic datasets that simulate real-world electricity consumption patterns.
+
+This type of dataset allows for a range of analyses suitable for a workshop setting, including preprocessing, exploratory analysis, and building forecasting models. It’s also directly relevant to current challenges in energy management and sustainable engineering, making it an engaging choice for an engineering-focused audience.
+
+A quick search on Google showed the availability of this data in [Kaggle](https://www.kaggle.com/datasets/nicholasjhana/energy-consumption-generation-prices-and-weather).
+
+## Workshop datasets and materials
+To illustrate a number of possibilities for the use of AI in the prediction of Diabetes, I have prepared (with help of GPT-4) some materials to be run in the Statiscal & Data Science Programming environment R. See files:
 
  - `./exploratory-data-analysis.Rmd`
  - `./machine-learning.Rmd`
@@ -256,10 +302,5 @@ in the Statiscal & Data Science Programming environment R. See files:
 
 As you see, before we dive into the modelling aspects of the data, we explore the data first to see what we have.
 
-
-
-
-
-
-
-
+## Building models with GPT-4
+ChatGPT can also help you build models.Both GPT-3.5 and GPT-4 are very good in writing code. In the workshop materials I have included the promts that I used to construct the basic code. Obviously, you need to have specific knowledge about how to apply Machnine Learning algorithms and for tasks which models can be used. Also, ChatGPT makes mistakes in the sybtax, so you have to have sufficient programming skills to fix bugs and errors. Furthemore, sometimes the code is written in a old-fashioned style. When that happens, I usually rewrite the code to fit a more modern style. For this workshop I chose to write the models and anlyses in R, but I could also have chosen Python.
